@@ -75,12 +75,12 @@ std::unordered_map<Command, std::string> commandFrameMap = {
 
 commonFrame request_yanwu1Frame = {
     {0, 0, 4, 0},       // 初始化 frameHead，分别对应 frameType, source, dest 和 subObj
-//    {0, 0, 0, 0.0f, 0.0f} // 初始化 framedata，分别对应 hasData, data1, data2, data3 和 data4
+    {0, 0, 0, 0.0f, 0.0f} // 初始化 framedata，分别对应 hasData, data1, data2, data3 和 data4
 };
 
 commonFrame request_yanwu2Frame = {
     {0, 0, 4, 1},       // 初始化 frameHead，分别对应 frameType, source, dest 和 subObj
-//    {0, 0, 0, 0.0f, 0.0f} // 初始化 framedata，分别对应 hasData, data1, data2, data3 和 data4
+    {0, 0, 0, 0.0f, 0.0f} // 初始化 framedata，分别对应 hasData, data1, data2, data3 和 data4
 };
 
 commonFrame request_FACEFrame = {
@@ -105,7 +105,7 @@ commonFrame request_INFFrame = {
 
 commonFrame request_TEMFrame = {
     {0, 0, 5, 0},       // 初始化 frameHead，分别对应 frameType, source, dest 和 subObj
-    {0, 0, 0, 0.0f, 0.0f} // 初始化 framedata，分别对应 hasData, data1, data2, data3 和 data4
+    {1, 0, 0, 0.0f, 0.0f} // 初始化 framedata，分别对应 hasData, data1, data2, data3 和 data4
 };
 commonFrame stop_data_send={
     {0,0,1,5},{0,0,0,0.0f,0.0f}
@@ -815,13 +815,13 @@ void trigger(const commonFrame& frame) {
                     }
                     break;
             case 4: //handleSource4(frame,processdata.gas); 
-                    smokeflag+=1;
-                    if(smokeflag==2){
+                    // smokeflag+=1;
+                    // if(smokeflag==2){
                     pushSmokeData();
-                    smokeflag=0;
-                    }
+                    // smokeflag=0;
+                    // }
                     break;
-            case 5: //handleSource5(frame,processdata.tem); break; 
+            case 5: handleSource5(frame,processdata.tem); break; 
             default: break;
         }
     }
@@ -849,9 +849,9 @@ void receiveData(int sockfd) {
             continue;
         }
         if(responseFrame.frameHead.frameType != 2) {
-           // printCommonFrame(responseFrame);
+            printCommonFrame(responseFrame);
             processData(responseFrame,processdata,revPothPoints,global_revPathPoints,robot_status);     
-            //printGlobalVariables();
+            printGlobalVariables();
             dataProcessed = true;
             trigger(responseFrame);
             //return;
